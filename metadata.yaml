@@ -1,0 +1,7 @@
+name: "auto-generated-pkg-75796959-8f40-47b6-b244-82a8761360f2"
+productVersion: "7.2.0-SNAPSHOT"
+data:
+- locator: "composite-blueprint/62ce1a9554284c6e61509.yaml"
+  name: "wordpress_multi"
+  description: "wordpress_multi"
+exportTime: "2016-12-20T09:18:50.456Z"

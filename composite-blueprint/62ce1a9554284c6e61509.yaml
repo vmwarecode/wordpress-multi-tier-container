@@ -1,0 +1,106 @@
+id: 62ce1a9554284c6e61509
+name: wordpress_multi
+status: PUBLISHED
+components:
+  mariadb:
+    type: App.Container
+    dependsOn:
+    - wp_mdb_network
+    data:
+      _cluster:
+        default: 1
+        max: 999
+        min: 1
+      affinity:
+        fixed: []
+      command:
+        fixed: []
+      cpu_shares: 30
+      env:
+      - value: wordpress
+        var: MYSQL_DATABASE
+      - value: wordpress
+        var: MYSQL_USER
+      - value: wordpress
+        var: MYSQL_PASSWORD
+      - value: 'yes'
+        var: MYSQL_RANDOM_ROOT_PASSWORD
+      health_config: {}
+      image: registry.hub.docker.com/library/mariadb
+      links:
+        fixed: []
+      log_config:
+        fixed: {}
+      memory_limit: 314572800
+      name: mariadb
+      networks:
+      - aliases: null
+        ipv4_address: null
+        ipv6_address: null
+        name: wp_mdb_network
+      ports:
+        fixed: []
+      publish_all: true
+      restart_policy: 'no'
+      volumes:
+        fixed: []
+      volumes_from:
+        fixed: []
+  wordpress:
+    type: App.Container
+    dependsOn:
+    - wp_mdb_network
+    - mariadb
+    data:
+      _cluster:
+        default: 1
+        max: 999
+        min: 1
+      affinity:
+        fixed: []
+      command:
+        fixed: []
+      cpu_shares: 30
+      env:
+      - value: ${_resource~mariadb~name}
+        var: WORDPRESS_DB_HOST
+      - value: wordpress
+        var: WORDPRESS_DB_USER
+      - value: wordpress
+        var: WORDPRESS_DB_NAME
+      - value: wordpress
+        var: WORDPRESS_DB_PASSWORD
+      health_config: {}
+      image: registry.hub.docker.com/library/wordpress
+      links:
+        fixed: []
+      log_config:
+        fixed: {}
+      memory_limit: 314572800
+      name: wordpress
+      networks:
+      - aliases: null
+        ipv4_address: null
+        ipv6_address: null
+        name: wp_mdb_network
+      ports:
+      - binding_host: ''
+        container_port: '80'
+        host_port: '86'
+        id: Bellevue.container.model.PortBindingModel-1
+        protocol: ''
+      publish_all: true
+      restart_policy: 'no'
+      volumes:
+        fixed: []
+      volumes_from:
+        fixed: []
+  wp_mdb_network:
+    type: App.Network
+    data:
+      external: false
+      name: wp_mdb_network
+layout:
+  mariadb: 0,1
+  wordpress: 0,2
+  wp_mdb_network: 1,0
